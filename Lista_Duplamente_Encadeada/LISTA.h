@@ -80,6 +80,48 @@ Tipo* Queue_Pop0(Queue* Q){
 	free(Aux);
 	--Q->qtde;
 
-	return O;
-	
+	return O;	
+}
+Tipo* Queue_Pop1(Queue* Q, int pos){
+	if(!Q) return NULL;
+	Tipo* O = (Tipo* )calloc(1, sizeof(Tipo));
+	int a = 0;
+	if(pos >= 0 && pos < Q->qtde){
+		Node* Aux = Q->begin;
+		while(a != pos){
+			Aux = Aux->next;
+			++a;
+		}
+		*O = Aux->data;
+		Aux->previus->next = Aux->next;
+		Aux->next->previus = Aux->previus;
+		Aux->previus = NULL;
+		Aux->next = NULL;
+		free(Aux);
+
+		--Q->qtde;
+		return O;
+	}
+	return NULL;
+}
+int Queue_Begin(Queue* Q, Tipo* end){
+	if(!Q || !end || !Q->begin) return 0;
+	*end = Q->begin->data;
+
+	return 1;
+}
+void Queue_Imprimir(Queue* Q,  void (*printElemento)(Queue*)){
+
+	(*printElemento)(Q);
+}
+int Queue_Tamanho(Queue* Q){
+	if(!Q) return 0;
+	Node* Aux = Q->begin;
+	int a = 0;
+	while(Aux){
+		++a;
+		Aux = Aux->next;
+	}
+
+	return a;
 }
