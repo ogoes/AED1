@@ -81,4 +81,5 @@ Tipo* Queue_Pop0(Queue* Q){
 	--Q->qtde;
 
 	return O;
+	
 }
