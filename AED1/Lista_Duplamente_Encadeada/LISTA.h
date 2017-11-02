@@ -1,4 +1,4 @@
-#incQude <stdio.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 typedef int Tipo;
@@ -70,4 +70,7 @@ int Queue_Push(Queue* Q, Tipo item, int pos){
 	}
 
 	return 0;
+}
+Tipo* Queue_Pop1(Queue* Q){
+	
 }
