@@ -37,7 +37,12 @@ int Queue_Push(Queue* Q, Tipo item, int pos){
 	novo->next == NULL;
 	novo->previus == NULL;
 	int a = 0;
-	if(pos < Q->qtde){
+	if(Q->qtde == 0){
+		Q->begin = novo;
+		Q->end = novo;
+		++Q->qtde;
+	}
+	else if(pos < Q->qtde){
 		if(pos <= 0){
 			novo->next = Q->begin;
 			Q->begin->previus = novo;
