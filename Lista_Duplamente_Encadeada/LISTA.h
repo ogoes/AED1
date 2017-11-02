@@ -15,14 +15,13 @@ typedef struct{
 	int qtde;
 }Queue;
 
-Queue* Queue_Criar(); 
-int Queue_Push(Queue* Q, Tipo item, int pos); 
-Tipo* Queue_Pop0(Queue* Q);
-Tipo* Queue_Pop1(Queue* Q, int pos);
-int Queue_Begin(Queue* Q, Tipo* end);
-void Queue_Imprimir(Queue* Q,  void (*printElemento)(Queue*));
-int Queue_Tamanho(Queue* Q);
-int Queue_vazia(Queue* Q);
+Queue* Queue_Criar(); // Cria lista 
+int Queue_Push(Queue* Q, Tipo item, int pos); // Insere elemento em determinada posição
+Tipo* Queue_Pop0(Queue* Q); // remove elemento do início
+Tipo* Queue_Pop1(Queue* Q, int pos); // remove elemento de uma posição
+int Queue_Begin(Queue* Q, Tipo* end); // devolve elemento do início
+void Queue_Imprimir(Queue* Q,  void (*printElemento)(Queue*)); // imprime a lista
+int Queue_Tamanho(Queue* Q); // devolve a quantidade de elementos da lista
 
 Queue* Queue_Criar(){
 	Queue* Q = (Queue* )malloc(sizeof(Queue));
@@ -73,5 +72,13 @@ int Queue_Push(Queue* Q, Tipo item, int pos){
 }
 Tipo* Queue_Pop0(Queue* Q){
 	if(!Q) return NULL;
-	
+	Tipo* O = (Tipo* )calloc(1, sizeof(Tipo));
+	*O = Q->begin->data;
+	Node* Aux = Q->begin;
+	Q->begin = Aux->next;
+	Aux->next->previus = NULL;
+	free(Aux);
+	--Q->qtde;
+
+	return O;
 }
