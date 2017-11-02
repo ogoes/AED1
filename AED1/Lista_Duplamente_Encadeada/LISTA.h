@@ -17,8 +17,8 @@ typedef struct{
 
 Queue* Queue_Criar(); 
 int Queue_Push(Queue* Q, Tipo item, int pos); 
-Tipo* Queue_Pop1(Queue* Q);
-int Queue_Pop2(Queue* Q, Tipo* end);
+Tipo* Queue_Pop0(Queue* Q);
+Tipo* Queue_Pop1(Queue* Q, int pos);
 int Queue_Begin(Queue* Q, Tipo* end);
 void Queue_Imprimir(Queue* Q,  void (*printElemento)(Queue*));
 int Queue_Tamanho(Queue* Q);
@@ -71,6 +71,7 @@ int Queue_Push(Queue* Q, Tipo item, int pos){
 
 	return 0;
 }
-Tipo* Queue_Pop1(Queue* Q){
+Tipo* Queue_Pop0(Queue* Q){
+	if(!Q) return NULL;
 	
 }
