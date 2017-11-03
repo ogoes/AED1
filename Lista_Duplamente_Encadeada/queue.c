@@ -9,17 +9,19 @@ void print(Queue* Q){
 }
 void main(){
 	Queue* Q = Queue_Criar();
-	int a;
-	int *A = &a;
+	int* A;
 	
 	for(int i = 0; i < 6; ++i){
 		Queue_Push(Q, i+1, 0);
 		Queue_Imprimir(Q, print);
 	}
-	A = Queue_Pop1(Q, 2);
+	A = Queue_Pop0(Q);
+	printf("%i\n", *A);
+	Queue_Imprimir(Q, print);
+	A = Queue_Pop1(Q, 1);
+	printf("%i\n", *A);
 	Queue_Imprimir(Q, print);
 
-	printf("%i\n", *A);
 
 
 }
