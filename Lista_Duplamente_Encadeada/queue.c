@@ -23,3 +23,10 @@ void main(){
 
 
 }
+/*Queue* Queue_Criar(); // Cria lista 
+int Queue_Push(Queue* Q, Tipo item, int pos); // Insere elemento em determinada posição
+Tipo* Queue_Pop0(Queue* Q); // remove elemento do início
+Tipo* Queue_Pop1(Queue* Q, int pos); // remove elemento de uma posição
+int Queue_Begin(Queue* Q, Tipo* end); // devolve elemento do início
+void Queue_Imprimir(Queue* Q,  void (*printElemento)(Queue*)); // imprime a lista
+int Queue_Tamanho(Queue* Q); // devolve a quantidade de elementos da lista*/
