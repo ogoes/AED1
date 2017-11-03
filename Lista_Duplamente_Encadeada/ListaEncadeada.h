@@ -56,12 +56,14 @@ int Queue_Push(Queue* Q, Tipo item, int pos){
 				Aux = Aux->next;
 				++a;
 			}
-			novo->previus = Aux;
-			novo->next = Aux->next;
-			Aux->next->previus = novo;
-			Aux->next = novo;
-
+			novo->previus = Aux->previus;
+			novo->next = Aux;
+			Aux->previus = novo;
+			novo->previus->next = novo;
 			++Q->qtde;
+
+			Aux = NULL;
+
 			return 1;
 		}
 	}
