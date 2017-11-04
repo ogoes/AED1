@@ -6,7 +6,7 @@ typedef int Tipo;
 typedef struct no{
 	Tipo data;
 	struct no* next;
-	struct no* previus;
+	struct no* prev;
 }Node;
 
 typedef struct{
@@ -35,7 +35,7 @@ int Queue_Push(Queue* Q, Tipo item, int pos){
 	Node* novo = (Node* )malloc(sizeof(Node));
 	novo->data = item;
 	novo->next == NULL;
-	novo->previus == NULL;
+	novo->prev == NULL;
 	int a = 0;
 	if(Q->qtde == 0){
 		Q->begin = novo;
@@ -45,7 +45,7 @@ int Queue_Push(Queue* Q, Tipo item, int pos){
 	else if(pos < Q->qtde){
 		if(pos <= 0){
 			novo->next = Q->begin;
-			Q->begin->previus = novo;
+			Q->begin->prev = novo;
 			Q->begin = novo;
 			++Q->qtde;
 			return 1;
@@ -56,10 +56,10 @@ int Queue_Push(Queue* Q, Tipo item, int pos){
 				Aux = Aux->next;
 				++a;
 			}
-			novo->previus = Aux->previus;
+			novo->prev = Aux->prev;
 			novo->next = Aux;
-			Aux->previus = novo;
-			novo->previus->next = novo;
+			Aux->prev = novo;
+			novo->prev->next = novo;
 			++Q->qtde;
 
 			Aux = NULL;
@@ -68,7 +68,7 @@ int Queue_Push(Queue* Q, Tipo item, int pos){
 		}
 	}
 	else{
-		novo->previus = Q->end;
+		novo->prev = Q->end;
 		Q->end->next = novo;
 		Q->end = novo;
 		++Q->qtde;
@@ -83,7 +83,7 @@ Tipo* Queue_Pop0(Queue* Q){
 	*O = Q->begin->data;
 	Node* Aux = Q->begin;
 	Q->begin = Aux->next;
-	Aux->next->previus = NULL;
+	Aux->next->prev = NULL;
 	free(Aux);
 	--Q->qtde;
 
@@ -100,9 +100,9 @@ Tipo* Queue_Pop1(Queue* Q, int pos){
 			++a;
 		}
 		*O = Aux->data;
-		Aux->previus->next = Aux->next;
-		Aux->next->previus = Aux->previus;
-		Aux->previus = NULL;
+		Aux->prev->next = Aux->next;
+		Aux->next->prev = Aux->prev;
+		Aux->prev = NULL;
 		Aux->next = NULL;
 		free(Aux);
 
