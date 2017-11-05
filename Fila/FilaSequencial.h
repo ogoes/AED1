@@ -84,19 +84,8 @@ int Fila_Diminuir(Fila* F){ // função para aumentar o tamanho do/a array/fila
 	return 1; // retorna um para sucesso
 }
 void Fila_Verifica(Fila* F){ // verifica se precisa aumentar ou diminuir a fila
-	int j = 0;
+	int j = fila_tamanho(F);
 	int i = F->begin;
-	if(F->begin > F->end){//   -------------//
-		while(i != F->end){					//
-			i = (i+1) % F->tam;				//
-			++j;							//
-		}									//
-	}else{									//-------> Verifica a quantidade de elementos
-		while(i < F->end){					//
-			++i;							//
-			++j;							//
-		}									//
-	}//				------------------------//
 	if(F->begin < 2 && F->end == F->tam-1) // verifica para aumentar
 		Fila_Aumentar(F);
 	else if(F->end == F->begin-1) // verifica para aumentar
