@@ -22,7 +22,7 @@ int queue_busca2(Queue* Q, int pos, Tipo* ende); // feita
 int queue_contem(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)); // feita
 int queue_posicao(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)); // feita
 int queue_tamanho(Queue* Q); // feita
-void queue_imprime(Queue* Q, int (*imprimeElemento)(Tipo*)); // feita
+void queue_imprime(Queue* Q, void (*imprimeElemento)(Tipo*)); // feita
 
 void diminui(Queue* Q){
 	if(Q){
@@ -47,7 +47,7 @@ void aumenta(Queue* Q){
 	}
 }
 void verifica(Queue* Q){
-	if(Q->qtde == Q->tam)
+	if(Q->qtde == Q->tam-1)
 		aumenta(Q);
 	else if(((float)Q->qtde/(float)Q->tam) < 0.25 && Q->tam > 5)
 		diminui(Q);
@@ -66,16 +66,25 @@ void queue_desaloca(Queue* Q){
 }
 void queue_insere(Queue* Q, Tipo elemento, int pos){
 	if(Q){
+		int a = 0, b = pos+1;
+		Tipo* A = (Tipo* )calloc(Q->tam - pos, sizeof(Tipo));
+		for(int i = pos; i < Q->qtde; ++i, ++a){
+			A[a] = Q->array[i];
+		}
+		b += a;
+		a = 0;
 		verifica(Q);
-		memcpy(&Q->array[pos + 1], &Q->array[pos], ((Q->tam - pos) * sizeof(Tipo)) );
 		Q->array[pos] = elemento;
+		for(int i = pos+1; i < b; ++i, ++a){
+			Q->array[i] = A[a];
+		}
 		++Q->qtde;
 	}
 }
 void queue_insere_fim(Queue* Q, Tipo elemento){
 	if(Q){
 		verifica(Q);
-		Q->array[Q->qtde];
+		Q->array[Q->qtde] = elemento;
 		++Q->qtde;
 	}
 }
@@ -156,9 +165,14 @@ int queue_tamanho(Queue* Q){
 	if(!Q) return 0;
 	return Q->qtde;
 }
-void queue_imprime(Queue* Q, int (*imprimeElemento)(Tipo*)){
-	for(int i = 0; i < Q->qtde; ++i){
-		(*imprimeElemento)(&Q->array[i]);
+void queue_imprime(Queue* Q, void (*imprimeElemento)(Tipo*)){
+	Tipo AA;
+	int i = 0
+	while(i < Q->qtde){
+		AA = Q->array[i];
+		(*imprimeElemento)(&AA);
 		if(i < Q->qtde-1) printf(",");
+		++i;
 	}
+	printf("\n");
 }
