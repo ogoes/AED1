@@ -16,7 +16,7 @@ void queue_insere(Queue* Q, Tipo elemento, int pos); // feita
 void queue_insere_fim(Queue* Q, Tipo elemento); // feita
 Tipo* queue_remove(Queue* Q, int pos); // feita
 int queue_remove2(Queue* Q, int pos, Tipo* ende); // feita
-Tipo* queue_remove_elemento(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)); // feita
+int queue_remove_elemento(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)); // feita
 Tipo* queue_busca(Queue* Q, int pos); // feita
 int queue_busca2(Queue* Q, int pos, Tipo* ende); // feita
 int queue_contem(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)); // feita
@@ -105,19 +105,19 @@ int queue_remove2(Queue* Q, int pos, Tipo* ende){
 
 	return 1;
 }
-Tipo* queue_remove_elemento(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)){
-	if(!Q) return NULL;
+int queue_remove_elemento(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)){
+	if(!Q) return 0;
 	Tipo* T = (Tipo* )calloc(1, sizeof(Tipo));
 
 	for(int i = 0; i < Q->qtde; ++i){
 		if((*compara)(&elemento, &Q->array[i])){
 			T = queue_remove(Q, i);
-			return T;
+			return 1;
 		}
 	}
 	free(T);
 
-	return NULL;
+	return 0;
 }
 Tipo* queue_busca(Queue* Q, int pos){
 	if(!Q) return NULL;
@@ -167,7 +167,7 @@ int queue_tamanho(Queue* Q){
 }
 void queue_imprime(Queue* Q, void (*imprimeElemento)(Tipo*)){
 	Tipo AA;
-	int i = 0
+	int i = 0;
 	while(i < Q->qtde){
 		AA = Q->array[i];
 		(*imprimeElemento)(&AA);
