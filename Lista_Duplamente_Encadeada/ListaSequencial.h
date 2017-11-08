@@ -92,24 +92,4 @@ Queue* Queue_Criar(){
 	return Q;
 }
 int Queue_Push(Queue* Q, Tipo item, int pos){
-	
-}
-int Queue_Tamanho(Queue* Q){
-	if(!Q || !Q->array) return 0;
-	if(Q->begin == Q->end) return 0;
-	int j = 0;
-	int	i = Q->begin;
-
-	if(Q->begin > Q->end){
-		while(i != Q->end){
-			i = (i+1) % Q->tam;
-			++j;
-		}
-	}else{
-		i = Q->begin;
-		while(i < Q->end){		
-			++i, ++j;
-		}
-	}
-	return j;
 }
