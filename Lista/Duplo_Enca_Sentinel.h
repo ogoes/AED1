@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef char Tipo;
+typedef int Tipo;
 
 typedef struct no{
 	Tipo data;
@@ -10,148 +10,114 @@ typedef struct no{
 }Node;
 
 typedef struct{
-	Node* begin;
-	Node* end;
+	Node* sentinel;
 	int qtde;
 }Queue;
 
-Queue* queue_cria(); // feita	
+Queue* queue_cria(); // feita
 void queue_desaloca(Queue* Q); // feita
 void queue_insere(Queue* Q, Tipo elemento, int pos); // feita
 void queue_insere_fim(Queue* Q, Tipo elemento); // feita
 Tipo* queue_remove(Queue* Q, int pos); // feita
 int queue_remove2(Queue* Q, int pos, Tipo* ende); // feita
 int queue_remove_elemento(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)); // feita
-Tipo* queue_busca(Queue* Q, int pos); // feita 
+Tipo* queue_busca(Queue* Q, int pos); // feita
 int queue_busca2(Queue* Q, int pos, Tipo* ende); // feita
 int queue_contem(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)); // feita
 int queue_posicao(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)); // feita
 int queue_tamanho(Queue* Q); // feita
-void queue_imprime(Queue* Q, void (*imprimeElemento)(Tipo*));
+void queue_imprime(Queue* Q, void (*imprimeElemento)(Tipo*)); // feita
 
+
+Node* novono(Tipo valor, Node* next, Node* prev){
+	Node* novo = (Node* )calloc(1, sizeof(Node));
+	novo->data = valor;
+	novo->next = next;
+	novo->prev = prev;
+
+	return novo;
+}
+Node* auxpos(Queue* Q, int pos){
+	if(pos < 0) pos = 0;
+	if(pos > Q->qtde) pos = Q->qtde;
+	Node* Aux = Q->sentinel;
+	int i = 0;
+	while(i < pos){
+		Aux = Aux->next;
+		++i;
+	}
+
+	return Aux;
+}
+void addfrente(Node* A, Node* B){
+	B->prev = A;
+	B->next = A->next;
+	A->next->prev = B;
+	A->next = B;
+}
+void remove1(Node* A, Tipo* B){
+	A->prev->next = A->next;
+	A->next->prev = A->prev;
+
+	*B = A->data;
+	free(A);
+}
 Queue* queue_cria(){
 	Queue* Q = (Queue* )calloc(1, sizeof(Queue));
-	Q->begin = NULL;
-	Q->end = NULL;
 	Q->qtde = 0;
+	Q->sentinel = (Node*)calloc(1, sizeof(Node));
+	Q->sentinel->next = Q->sentinel;
+	Q->sentinel->prev = Q->sentinel;
 
 	return Q;
 }
 void queue_desaloca(Queue* Q){
-	Node* Aux = Q->begin;
-	Node* XXX;
-	while(Aux){
-		XXX = Aux;
-		Aux = Aux->next;
-		free(XXX);
+	if(Q->sentinel->next == Q->sentinel){
+		free(Q->sentinel->next);
+		
 	}
-	free(Q->begin);
-	free(Q->end);
-	free(Q);
+	else{
+		free(Q->sentinel->next);
+		free(Q->sentinel->prev);
+		free(Q->sentinel);
+		free(Q);
+	}
 }
 void queue_insere(Queue* Q, Tipo elemento, int pos){
-	if(Q){
-		Node* novo = (Node* )calloc(1, sizeof(Node));
-		novo->data = elemento;
-		novo->prev = NULL;
-		novo->next = NULL;
-		int a = 0;
-		if(Q->qtde == 0){
-			Q->begin = novo;
-			Q->end = novo;
-			++Q->qtde;
-		}
-		else if(pos < Q->qtde){
-			if(pos <= 0){
-				novo->next = Q->begin;
-				Q->begin->prev = novo;
-				Q->begin = novo;
-				++Q->qtde;
-			}
-			else{
-				Node* Aux = Q->begin;
-				while(a != pos){
-					Aux = Aux->next;
-					++a;
-				}
-				novo->prev = Aux->prev;
-				novo->next = Aux;
-				Aux->prev = novo;
-				novo->prev->next = novo;
-				++Q->qtde;
-			}
-		}
-		else{
-			novo->prev = Q->end;
-			Q->end->next = novo;
-			Q->end = novo;
-			++Q->qtde;
-		}
-
-	}
+	Node* novo = novono(elemento, NULL, NULL);
+	Node* AUX = auxpos(Q, pos);
+	addfrente(AUX, novo);
+	++Q->qtde;
 }
 void queue_insere_fim(Queue* Q, Tipo elemento){
-	if(Q){
+	if(Q)	
 		queue_insere(Q, elemento, Q->qtde);
-
-	}
 }
 Tipo* queue_remove(Queue* Q, int pos){
 	if(!Q) return NULL;
-	if(pos < 0 || pos > Q->qtde) return NULL;
+	if(pos < 0 || pos >= Q->qtde) return NULL;
+	if(Q->sentinel->next == Q->sentinel) return NULL;
 	Tipo* T = (Tipo* )calloc(1, sizeof(Tipo));
-	Node* Aux = Q->begin;
-	int a = 0;
-
-	if(pos == 0){
-		Q->begin = Aux->next;
-		Aux->next->prev = NULL;
-		*T = Aux->data;
-		free(Aux);
-		--Q->qtde;
-	}
-	else{
-		while(a != pos){
-			Aux = Aux->next;
-			++a;
-		}
-		*T = Aux->data;
-		Aux->prev->next = Aux->next;
-		Aux->next->prev = Aux->prev;
-		free(Aux);
-		--Q->qtde;
-	}
+	Node* AUX = auxpos(Q, pos+1);
+	remove1(AUX, T);
+	--Q->qtde;
+	
 	return T;
 }
 int queue_remove2(Queue* Q, int pos, Tipo* ende){
 	if(!Q) return 0;
-	if(pos < 0 || pos > Q->qtde) return 0;
-	Node* Aux = Q->begin;
-	int a = 0;
-
-	if(pos == 0){
-		Q->begin = Aux->next;
-		Aux->next->prev = NULL;
-		*ende = Aux->data;
-		free(Aux);
-		--Q->qtde;
-	}
-	else{
-		while(a != pos){
-			Aux = Aux->next;
-			++a;
-		}
-		*ende = Aux->data;
-		Aux->prev->next = Aux->next;
-		Aux->next->prev = Aux->prev;
-		free(Aux);
-		--Q->qtde;
-	}
+	if(pos < 0 || pos >= Q->qtde) return 0;
+	if(Q->sentinel->next == Q->sentinel) return 0;
+	Node* AUX = auxpos(Q, pos+1);
+	remove1(AUX, ende);
+	--Q->qtde;
+	
 	return 1;
 }
 int queue_remove_elemento(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)){
 	if(!Q) return 0;
-	Node* Aux = Q->begin;
+	if(Q->sentinel->next == Q->sentinel) return 0;
+	Node* Aux = Q->sentinel->next;
 	Tipo* T = (Tipo* )calloc(1, sizeof(Tipo));
 	int a = 0;
 	while(Aux){
@@ -168,10 +134,11 @@ int queue_remove_elemento(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*))
 Tipo* queue_busca(Queue* Q, int pos){
 	if(!Q) return NULL;
 	if(pos < 0 && pos >= Q->qtde) return NULL;
+	if(Q->sentinel->next == Q->sentinel) return NULL;
 	int a = 0;
 	Tipo* T = (Tipo* )calloc(1, sizeof(Tipo));
 
-	Node* Aux = Q->begin;
+	Node* Aux = Q->sentinel->next;
 	while(a != pos){
 		Aux = Aux->next;
 		++a;
@@ -183,9 +150,10 @@ Tipo* queue_busca(Queue* Q, int pos){
 int queue_busca2(Queue* Q, int pos, Tipo* ende){
 	if(!Q) return 0;
 	if(pos < 0 && pos >= Q->qtde) return 0;
+	if(Q->sentinel->next == Q->sentinel) return 0;
 	int a = 0;
 
-	Node* Aux = Q->begin;
+	Node* Aux = Q->sentinel;
 	while(a != pos){
 		Aux = Aux->next;
 		++a;
@@ -196,7 +164,8 @@ int queue_busca2(Queue* Q, int pos, Tipo* ende){
 }
 int queue_contem(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)){
 	if(!Q) return 0;
-	Node* Aux = Q->begin;
+	if(Q->sentinel->next == Q->sentinel) return 0;
+	Node* Aux = Q->sentinel->next;
 	Tipo AA;
 	while(Aux){
 		AA = Aux->data;
@@ -210,7 +179,8 @@ int queue_contem(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)){
 }
 int queue_posicao(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)){
 	if(!Q) return -1;
-	Node* Aux = Q->begin;
+	if(Q->sentinel->next == Q->sentinel) return -1;
+	Node* Aux = Q->sentinel->next;
 	Tipo AA;
 	int i = 0;
 	while(Aux){
@@ -224,8 +194,9 @@ int queue_posicao(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)){
 	return -1;
 }
 int queue_tamanho(Queue* Q){
-	if(!Q) return 0;
-	Node* Aux = Q->begin;
+	if(!Q) return -1;
+	if(Q->sentinel->next == Q->sentinel) return -1;
+	Node* Aux = Q->sentinel->next;
 	int a = 0;
 	while(Aux){
 		++a;
@@ -235,13 +206,13 @@ int queue_tamanho(Queue* Q){
 	return a;
 }
 void queue_imprime(Queue* Q, void (*imprimeElemento)(Tipo*)){
-	if(Q){
-		Node* Aux = Q->begin;
+	if(Q && Q->sentinel->next != Q->sentinel){
+		Node* Aux = Q->sentinel->next;
 		Tipo AA;
-		while(Aux){
+		while(Aux != Q->sentinel){
 			AA = Aux->data;
 			(*imprimeElemento)(&AA);
-			if(Aux->next) printf(",");
+			if(Aux->next != Q->sentinel) printf(",");
 			Aux = Aux->next;
 		}
 		printf("\n");
