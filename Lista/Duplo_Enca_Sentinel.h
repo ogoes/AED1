@@ -72,16 +72,15 @@ Queue* queue_cria(){
 	return Q;
 }
 void queue_desaloca(Queue* Q){
-	if(Q->sentinel->next == Q->sentinel){
-		free(Q->sentinel->next);
-		
+	Node* Aux = Q->sentinel->next;
+	Node* XXX;
+	while(Aux != Q->sentinel){
+		XXX = Aux;
+		Aux = Aux->next;
+		free(XXX);
 	}
-	else{
-		free(Q->sentinel->next);
-		free(Q->sentinel->prev);
-		free(Q->sentinel);
-		free(Q);
-	}
+	free(Q->sentinel);
+	free(Q);
 }
 void queue_insere(Queue* Q, Tipo elemento, int pos){
 	Node* novo = novono(elemento, NULL, NULL);
