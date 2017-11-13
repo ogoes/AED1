@@ -77,10 +77,11 @@ void queue_desaloca(Queue* Q){
 	while(Aux != Q->sentinel){
 		XXX = Aux;
 		Aux = Aux->next;
-		free(XXX);
+		free(XXX); XXX = NULL;
 	}
-	free(Q->sentinel);
-	free(Q);
+	Aux = NULL;
+	free(Q->sentinel); Q->sentinel = NULL;
+	free(Q); Q = NULL;
 }
 void queue_insere(Queue* Q, Tipo elemento, int pos){
 	Node* novo = novono(elemento, NULL, NULL);
@@ -119,7 +120,7 @@ int queue_remove_elemento(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*))
 	Node* Aux = Q->sentinel->next;
 	Tipo* T = (Tipo* )calloc(1, sizeof(Tipo));
 	int a = 0;
-	while(Aux){
+	while(Aux != Q->sentinel){
 		if((*compara)(&elemento, &Aux->data)){
 			T = queue_remove(Q, a);
 			return 1;
@@ -166,7 +167,7 @@ int queue_contem(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)){
 	if(Q->sentinel->next == Q->sentinel) return 0;
 	Node* Aux = Q->sentinel->next;
 	Tipo AA;
-	while(Aux){
+	while(Aux != Q->sentinel){
 		AA = Aux->data;
 		if((*compara)(&elemento, &AA))
 			return 1;
@@ -182,7 +183,7 @@ int queue_posicao(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)){
 	Node* Aux = Q->sentinel->next;
 	Tipo AA;
 	int i = 0;
-	while(Aux){
+	while(Aux != Q->sentinel){
 		AA = Aux->data;
 		if((*compara)(&elemento, &AA))
 			return i;
@@ -197,7 +198,7 @@ int queue_tamanho(Queue* Q){
 	if(Q->sentinel->next == Q->sentinel) return -1;
 	Node* Aux = Q->sentinel->next;
 	int a = 0;
-	while(Aux){
+	while(Aux != Q->sentinel){
 		++a;
 		Aux = Aux->next;
 	}
@@ -205,7 +206,7 @@ int queue_tamanho(Queue* Q){
 	return a;
 }
 void queue_imprime(Queue* Q, void (*imprimeElemento)(Tipo*)){
-	if(Q && Q->sentinel->next != Q->sentinel){
+	if(Q != NULL){
 		Node* Aux = Q->sentinel->next;
 		Tipo AA;
 		while(Aux != Q->sentinel){
