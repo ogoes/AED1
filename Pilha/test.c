@@ -1,5 +1,5 @@
-// #include "PILHAENCADEADA.h"
-#include "PILHASEQUENCIAL.h"
+#include "PILHAENCADEADA.h"
+// #include "PILHASEQUENCIAL.h"
 
 /*void printInt(Pilha* P){
 	Node* aux = P->top;
@@ -25,12 +25,8 @@ void printChar(Pilha* P){
 	}
 	printf("\n");
 }*/
-void print(Pilha* P){
-	for(int i = 0; i < P->top; ++i){
-		printf(" %i", P->vetor[i]);
-		if(i < P->top-1) printf(",");
-	}
-	printf("\n");
+void print(Tipo* P){
+	printf(" %i", *P);
 }
 
 void main(){
@@ -43,7 +39,7 @@ void main(){
 	Pilha_Imprimir(P, print);
 	Pilha_Push(P, 5);
 	Pilha_Push(P, 5);
-	// Pilha_Imprimir(P, print);
+	Pilha_Imprimir(P, print);
 
 	/*printf("%i\n", sizeof(int));
 	printf("%i\n", sizeof(float));

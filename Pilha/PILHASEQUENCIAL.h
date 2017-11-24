@@ -17,15 +17,19 @@ int Pilha_Pop2(Pilha* P, Tipo* end); // feita
 int Pilha_Top(Pilha* P, Tipo* end); // feita
 int Pilha_Aumentar(Pilha* P); // feita
 int Pilha_Diminuir(Pilha* P); // feita
-void Pilha_Imprimir(Pilha* P, void (*printElemento)(Pilha*)); // feita
+void Pilha_Imprimir(Pilha* P, void (*printElemento)(Tipo*)); // feita
 int Pilha_tamanho(Pilha* P); // feita
 
 int Pilha_tamanho(Pilha* P){
 	if(!P) return 0;
-	return P->tam;
+	return P->top;
 }
-void Pilha_Imprimir(Pilha* P, void (*printElemento)(Pilha*)){
-	(*printElemento)(P);
+void Pilha_Imprimir(Pilha* P, void (*printElemento)(Tipo*)){
+	for(int i = P->top-1; i >= 0; --i){
+		(*printElemento)(&P->vetor[i]);
+		if(i > 0) printf(",");
+	}
+	printf("\n");
 }
 void Pilha_Verifica(Pilha* P){
 	if(!P)

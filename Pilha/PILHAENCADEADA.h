@@ -18,7 +18,7 @@ int Pilha_Push(Pilha* P, Tipo item); // feita
 Tipo* Pilha_Pop1(Pilha* P); // feita
 int Pilha_Pop2(Pilha* P, Tipo* end); // feita
 int Pilha_Top(Pilha* P, Tipo* end); // feita
-void Pilha_Imprimir(Pilha* P,  void (*printElemento)(Pilha*)); // feita
+void Pilha_Imprimir(Pilha* P,  void (*printElemento)(Tipo*)); // feita
 int Pilha_Tamanho(Pilha* P); // feita
 
 Pilha* Pilha_Criar(){
@@ -73,8 +73,13 @@ int Pilha_Top(Pilha* P, Tipo* end){
 	*end = (P->top)->data;
 	return 1;
 }
-void Pilha_Imprimir(Pilha* P, void (*printElemento)(Pilha*)){
-	(*printElemento)(P);
+void Pilha_Imprimir(Pilha* P, void (*printElemento)(Tipo*)){
+	Node* Aux = P->top;
+	while(Aux){
+		(*printElemento)(&Aux->data);
+		Aux = Aux->next;
+	}
+	printf("\n");
 }
 int Pilha_Tamanho(Pilha* P){
 	if(!P) return -1;
