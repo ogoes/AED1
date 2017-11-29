@@ -105,7 +105,7 @@ void inseretupla(Database* db, char* NomeTabela, char *dados[]){
     TU = TU->dir;
     int i = 1;
     while(NOA != TA->atributos){
-        UneTV(NOA->valores, TU);
+        UneTV(NOA->valores->cima, TU);
         criarTuplas(TU, dados[i]);
         TU = TU->dir;
         NOA = NOA->dir;

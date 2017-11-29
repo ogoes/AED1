@@ -79,8 +79,10 @@ void imprimirDatabase(Database* db){
     bold(1);
     printf(" %s\n", db->nome);
     bold(0);
-    printf("TABELAS \n" );
-    for (int i = 0; i < db->qtdeTabelas; i++){
-        imprimirTabela(db->tabelas[i]);    
+    if(db->qtdeTabelas != 0){
+        printf("TABELAS \n" );
+        for (int i = 0; i < db->qtdeTabelas; i++){
+            imprimirTabela(db->tabelas[i]);    
+        }
     }
 }

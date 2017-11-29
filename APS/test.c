@@ -4,47 +4,29 @@
 #include <string.h>
 #include "usuario.h"
 
-void M(){
-    Database* db = criarDatabase("Universidade");
-    /*char *A[] = {"ra", "nome", "nota"};
-    char *B[] = {"interger", "string", "float"};
-    criarTabela(db, "Alunos", A, B, 3);
-    char *C[] = {"123", "GOrd", "9.5"};
-    inseretupla(db, "Alunos", C);
-    // imprimirDatabase(db);
-   /* char *d[] = {"623", "Gord", "9.0"};
-    inseretupla(db, "Alunos", d);*/
-    // imprimirDatabase(db);
-
-
-    /*char *F[] = {"rsa", "nomes", "notas"};
-    char *G[] = {"interger", "string", "float"};
-
-    criarTabela(db, "AUx", F, G, 3);
-    char *Q[] = {"123", "GOrd", "9.0"};
-    inseretupla(db, "AUx", Q);
-    char *H[] = {"123", "GOrd", "8.5"};
-    inseretupla(db, "AUx", H);
-    char *J[] = {"123", "GOrd", "8.0"};
-    inseretupla(db, "AUx", J);
-    char *L[] = {"123", "GOrd", "7.5"};
-    inseretupla(db, "AUx", L);
-    char *T[] = {"123", "GOrd", "6.4"};
-    inseretupla(db, "AUx", T);
-*/
-    imprimirDatabase(db);
-}
 int main(){
     // M();
     Database* db;
     char text[1000];
-    int a;
+    int i, a;
     do{ 
+        i = 0, a = 0;
         text[0] = '\0';
-        printf("··· ");
+        printf("»»» ");
         scanf("%[^\n]s", text);
         __fpurge(stdin);
-        db = verifica(text, db);
+        while(i <= strlen(text)){
+            if(text[i] == '(' || text[i] == ')') ++a;
+            ++i;
+        }
+        if(a == 2 || a == 0){
+            db = verifica(text, db, a);
+        }
+        else{
+            bold(1);
+            printf(" ERROR: invalid command line\n");
+            bold(0);
+        }
     }while(strcmp(text, "EXIT") != 0 && strcmp(text, "-X") != 0);
     
     
