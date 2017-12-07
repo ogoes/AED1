@@ -101,12 +101,11 @@ void inseretupla(Database* db, char* NomeTabela, char *dados[]){
     TU->esq = TU;
     TA->tuplas[TA->qtdeTuplas] = TU;
     NoAtributo* NOA = TA->atributos->dir;
-    criarTuplas(TU, dados[0]);
     TU = TU->dir;
-    int i = 1;
+    int i = 0;
     while(NOA != TA->atributos){
-        UneTV(NOA->valores->cima, TU);
         criarTuplas(TU, dados[i]);
+        UneTV(NOA->valores->cima, TU);
         TU = TU->dir;
         NOA = NOA->dir;
         ++i;

@@ -5,81 +5,10 @@ Database* createData( Database* db, char* string);
 int createTable(Database* db, char* string);
 int Select(Database* db, char* string);
 int Insert(Database* db, char* string);
-int A = 0, B = -1, C = 0, T = 0, atts = 0;
-float V[10];
+int A = 0, T = 0;
 int qtdeatts[] = {1, 1, 1, 1, 1};
 int QTDE = 0;
 
-void vetor(int B){
-	V[C] = B;
-	++C;
-}
-void veri(char c){
-	if(c == '1')
-		B = 1;
-	else if(c == '2')
-		B = 2;
-	else if(c == '3')
-		B = 3;
-	else if(c == '4')
-		B = 4;
-	else if(c == '5')
-		B = 5;
-	else if(c == '6')
-		B = 6;
-	else if(c == '7')
-		B = 7;
-	else if(c == '8')
-		B = 8;
-	else if(c == '9')
-		B = 9;
-	else if(c == '0')
-		B = 0;
-	else if(c == '.')
-		B = 10;
-
-
-	if(B != -1){
-		vetor(B);
-	}
-}
-int decimalInt(){
-	if(C != 0){
-		int aux = 0;
-		for(int i = 0; i < C; ++i)
-			for(int j = i; j < C-1; ++j)
-				V[i] *= 10;
-		for(int i = 0; i < C; ++i)
-			aux += V[i];
-		C = 0;
-		return aux;
-	}
-}
-float decimalFLO(){
-	if(C != 0){
-		float aux = 0;
-		int a = 0;
-		for(int i = 0; i < C; ++i){
-			if(V[i] != 10) ++a;
-			else i = C;
-		}
-		V[a] = 0;
-		for(int i = 0; i < a; ++i){
-			for(int j = i; j < a-1; ++j){
-				V[i] *= 10;
-			}
-		}
-		for(int i = C-1; i > a; --i){
-			for(int j = i; j > a; --j)
- 				V[i] /= 10;
-		}
-		for(int i = 0; i < C; ++i){
-			aux += V[i];
-		}
-		C = 0;
-		return aux;
-	}
-}
 void ERROR(int a){
 	bold(1);
 	if(a == 0)
@@ -103,7 +32,6 @@ void ERROR(int a){
 	bold(0);
 }
 
-
 int compara(char *dado, char* tipo, char op, char* value){
 	if(strcmp(tipo, "string") == 0){
 		if(strcmp(dado, value) == 0)
@@ -114,18 +42,8 @@ int compara(char *dado, char* tipo, char op, char* value){
 	else if(strcmp(tipo, "float") == 0){
 		float DD;
 		float VV;
-		int i = 0;
-		while(dado[i] != '\0'){
-			veri(dado[i]);
-			++i;
-		}
-		DD = decimalFLO();
-		i = 0;
-		while(value[i] != '\0'){
-			veri(value[i]);
-			++i;
-		}
-		VV = decimalFLO();
+		DD = atof(dado);
+		VV = atof(value);
 		if(op == '='){
 			if(VV == DD)
 				return 1;
@@ -148,18 +66,8 @@ int compara(char *dado, char* tipo, char op, char* value){
 	else if(strcmp(tipo, "integer") == 0){
 		int DD;
 		int VV;
-		int i = 0;
-		while(dado[i] != '\0'){
-			veri(dado[i]);
-			++i;
-		}
-		DD = decimalInt();
-		i = 0;
-		while(value[i] != '\0'){
-			veri(value[i]);
-			++i;
-		}
-		VV = decimalInt();
+		DD = atoi(dado);
+		VV = atoi(value);
 		if(op == '='){
 			if(VV == DD)
 				return 1;
@@ -185,23 +93,27 @@ int compara(char *dado, char* tipo, char op, char* value){
 Database* createData(Database* db, char* string){
 	int t = strlen(string);
 	if(A == 0){
-		while(string[t] != ';' && t > 16)
+		string += 11;
+		while(string[t] != ';' && t > 5)
 			--t;
 		if(string[t] != ';'){
 			ERROR(0);
 			return NULL;
 		}
-		for(int i = 0; i < 16; ++i){
+		for(int i = 0; i < 5; ++i){
 			string[i] = toupper(string[i]);
 		}
-		if(strncmp(string, "CREATE DATABASE ", 16) != 0){
+		if(strncmp(string, "BASE ", 5) != 0){
 			ERROR(3);
 			return 0;
 		}
-		string += 16;
+		string += 5;
+		while(string[0] == ' ')
+			string += 1;
 		char nome[30];
 		int i = 0;
-		while(string[i] != ' ' && string[i] != ';'){
+		if(string[0] == '"') string += 1;
+		while(string[i] != ' ' && string[i] != ';' && string[i] != '"'){
 			nome[i] = string[i];
 			++i;
 		}
@@ -227,6 +139,7 @@ int createTable(Database* db, char* string){
 	}
 	int a = 0, i = 0;
 	string += 13;
+	
 	char nome[30];
 	i = 0;
 	while(string[i] != ' ' && string[i] != '('){
@@ -425,8 +338,10 @@ int Select(Database* db, char* string){
 	string += 5;
 	while(string[0] == ' ')
 		string += 1;
-	if(string[0] == ';')
+	if(string[0] == ';'){
 		imprimirDatabase(db);
+		return 0;
+	}
 	char ATTS[30];
 	i = 0;
 	while(string[i] != ' ' && string[i] != ';'){
@@ -508,7 +423,6 @@ void help(){
 	printf(" >>>> |-x| exit; exit of program\n");
 	printf(" >>>> |-h| help; show this menu\n\n\n\n\n\n\n\n");
 }
-
 Database* verifica(char* string, Database* db, int a){
 	
 	for(int i = 0; i < 11; ++i){
