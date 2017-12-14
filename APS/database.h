@@ -8,10 +8,6 @@ void criaAtributos(NoAtributo* AA, char *nome, char *tipo);
 void criarTuplas(NoDado* TT, char* dado);
 void aumentaTU(Tabela* TA);
 
-
-
-
-
 void criarTuplas(NoDado* TT, char* dado){
     NoDado* NO = (NoDado*)calloc(1, sizeof(NoDado));
     NO->dado = dado;
