@@ -1,12 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 typedef int Tipo;
 
 typedef struct no{
 	Tipo data;
 	struct no* next;
 }Node;
+
 
 typedef struct{
 	Node* top;

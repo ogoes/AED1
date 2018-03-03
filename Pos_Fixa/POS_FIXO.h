@@ -6,6 +6,7 @@
 int A, B = 0, AUX;
 int V[10];
 
+
 void Read_Begin(FILE* F, FILE* P, Pilha* P1);
 void Verifica(char c, Pilha* P1, FILE* P);
 void Buffer();

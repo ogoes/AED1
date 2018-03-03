@@ -4,6 +4,7 @@
 // #include "Duplo_Enca.h"
 // #include "Sequencial.h"
 
+
 typedef struct{
 	Node* node;
 	Queue* Q;

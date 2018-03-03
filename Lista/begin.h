@@ -4,6 +4,7 @@
 
 
 
+
 typedef struct noDado{
     void* dado;
     int tamDado;

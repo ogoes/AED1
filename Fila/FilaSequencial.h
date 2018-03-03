@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+
 typedef int Tipo; // Tipo do dado armazenado
 
 typedef struct{

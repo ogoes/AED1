@@ -4,6 +4,7 @@
 
 typedef int Tipo;
 
+
 typedef struct{
 	Tipo* vetor;
 	int qtde;

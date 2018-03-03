@@ -3,6 +3,7 @@
 
 typedef int Tipo;
 
+
 typedef struct no{
 	Tipo data;
 	struct no* next;

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 
+
 typedef int Tipo;
 
 typedef struct{

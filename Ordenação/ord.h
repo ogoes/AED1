@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 
+
 void Imprime(int* V, int n){
 	for(int i = 0; i < n; ++i){
 		printf(" %i", V[i]);
