@@ -9,23 +9,23 @@ typedef struct{
 	Tipo* array;
 	int qtde;
 	int tam;
-}Queue;
+}Stack;
 
-Queue* queue_cria(); // feita
-void queue_desaloca(Queue* Q); // feita
-void queue_insere(Queue* Q, Tipo elemento, int pos); // feita
-void queue_insere_fim(Queue* Q, Tipo elemento); // feita
-Tipo* queue_remove(Queue* Q, int pos); // feita
-int queue_remove2(Queue* Q, int pos, Tipo* ende); // feita
-int queue_remove_elemento(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)); // feita
-Tipo* queue_busca(Queue* Q, int pos); // feita
-int queue_busca2(Queue* Q, int pos, Tipo* ende); // feita
-int queue_contem(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)); // feita
-int queue_posicao(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)); // feita
-int queue_tamanho(Queue* Q); // feita
-void queue_imprime(Queue* Q, void (*imprimeElemento)(Tipo*)); // feita
+Stack* Stack_cria(); // feita
+void Stack_desaloca(Stack* Q); // feita
+void Stack_insere(Stack* Q, Tipo elemento, int pos); // feita
+void Stack_insere_fim(Stack* Q, Tipo elemento); // feita
+Tipo* Stack_remove(Stack* Q, int pos); // feita
+int Stack_remove2(Stack* Q, int pos, Tipo* ende); // feita
+int Stack_remove_elemento(Stack* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)); // feita
+Tipo* Stack_busca(Stack* Q, int pos); // feita
+int Stack_busca2(Stack* Q, int pos, Tipo* ende); // feita
+int Stack_contem(Stack* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)); // feita
+int Stack_posicao(Stack* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)); // feita
+int Stack_tamanho(Stack* Q); // feita
+void Stack_imprime(Stack* Q, void (*imprimeElemento)(Tipo*)); // feita
 
-void diminui(Queue* Q){
+void diminui(Stack* Q){
 	if(Q){
 		Tipo* AA = (Tipo*)calloc(Q->tam/2, sizeof(Tipo));
 		for(int i = 0; i < Q->qtde; ++i){
@@ -36,7 +36,7 @@ void diminui(Queue* Q){
 		Q->tam /= 2;
 	}
 }
-void aumenta(Queue* Q){
+void aumenta(Stack* Q){
 	if(Q){
 		Tipo* AA = (Tipo*)calloc(Q->tam*2, sizeof(Tipo));
 		for(int i = 0; i < Q->qtde; ++i){
@@ -47,25 +47,25 @@ void aumenta(Queue* Q){
 		Q->tam *= 2;
 	}
 }
-void verifica(Queue* Q){
+void verifica(Stack* Q){
 	if(Q->qtde == Q->tam-1)
 		aumenta(Q);
 	else if(((float)Q->qtde/(float)Q->tam) < 0.25 && Q->tam > 5)
 		diminui(Q);
 }
-Queue* queue_cria(){
-	Queue* Q = (Queue* )calloc(1, sizeof(Queue));
+Stack* Stack_cria(){
+	Stack* Q = (Stack* )calloc(1, sizeof(Stack));
 	Q->array = (Tipo* )calloc(5, sizeof(Tipo));
 	Q->qtde = 0;
 	Q->tam = 5;
 
 	return Q;
 }
-void queue_desaloca(Queue* Q){
+void Stack_desaloca(Stack* Q){
 	free(Q->array);
 	free(Q);
 }
-void queue_insere(Queue* Q, Tipo elemento, int pos){
+void Stack_insere(Stack* Q, Tipo elemento, int pos){
 	if(Q){
 		int a = 0, b = pos+1;
 		Tipo* A = (Tipo* )calloc(Q->tam - pos, sizeof(Tipo));
@@ -82,14 +82,14 @@ void queue_insere(Queue* Q, Tipo elemento, int pos){
 		++Q->qtde;
 	}
 }
-void queue_insere_fim(Queue* Q, Tipo elemento){
+void Stack_insere_fim(Stack* Q, Tipo elemento){
 	if(Q){
 		verifica(Q);
 		Q->array[Q->qtde] = elemento;
 		++Q->qtde;
 	}
 }
-Tipo* queue_remove(Queue* Q, int pos){
+Tipo* Stack_remove(Stack* Q, int pos){
 	if(!Q) return NULL;
 	Tipo* T = (Tipo* )calloc(1, sizeof(Tipo));
 	*T = Q->array[pos];
@@ -98,7 +98,7 @@ Tipo* queue_remove(Queue* Q, int pos){
 
 	return T;
 }
-int queue_remove2(Queue* Q, int pos, Tipo* ende){
+int Stack_remove2(Stack* Q, int pos, Tipo* ende){
 	if(!Q) return 0;
 	*ende = Q->array[pos];
 	memcpy(&Q->array[pos], &Q->array[pos + 1], ((Q->tam - (pos+1)) * sizeof(Tipo)) );
@@ -106,13 +106,13 @@ int queue_remove2(Queue* Q, int pos, Tipo* ende){
 
 	return 1;
 }
-int queue_remove_elemento(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)){
+int Stack_remove_elemento(Stack* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)){
 	if(!Q) return 0;
 	Tipo* T = (Tipo* )calloc(1, sizeof(Tipo));
 
 	for(int i = 0; i < Q->qtde; ++i){
 		if((*compara)(&elemento, &Q->array[i])){
-			T = queue_remove(Q, i);
+			T = Stack_remove(Q, i);
 			return 1;
 		}
 	}
@@ -120,7 +120,7 @@ int queue_remove_elemento(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*))
 
 	return 0;
 }
-Tipo* queue_busca(Queue* Q, int pos){
+Tipo* Stack_busca(Stack* Q, int pos){
 	if(!Q) return NULL;
 	if(pos < 0 || pos >= Q->qtde) return NULL;
 	Tipo* T = (Tipo*)calloc(1, sizeof(Tipo));
@@ -133,7 +133,7 @@ Tipo* queue_busca(Queue* Q, int pos){
 	free(T);
 	return NULL;
 }
-int queue_busca2(Queue* Q, int pos, Tipo* ende){
+int Stack_busca2(Stack* Q, int pos, Tipo* ende){
 	if(!Q) return 0;
 	if(pos < 0 || pos >= Q->qtde) return 0;
 
@@ -144,7 +144,7 @@ int queue_busca2(Queue* Q, int pos, Tipo* ende){
 
 	return 0;
 }
-int queue_contem(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)){
+int Stack_contem(Stack* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)){
 	if(!Q) return 0;
 	for(int i = 0; i < Q->qtde; ++i){
 		if((*compara)(&elemento, &Q->array[i]))
@@ -153,7 +153,7 @@ int queue_contem(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)){
 
 	return 0;
 }
-int queue_posicao(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)){
+int Stack_posicao(Stack* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)){
 	if(!Q) return -1;
 	for(int i = 0; i < Q->qtde; ++i){
 		if((*compara)(&elemento, &Q->array[i]))
@@ -162,11 +162,11 @@ int queue_posicao(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)){
 
 	return -1;
 }
-int queue_tamanho(Queue* Q){
+int Stack_tamanho(Stack* Q){
 	if(!Q) return 0;
 	return Q->qtde;
 }
-void queue_imprime(Queue* Q, void (*imprimeElemento)(Tipo*)){
+void Stack_imprime(Stack* Q, void (*imprimeElemento)(Tipo*)){
 	Tipo AA;
 	int i = 0;
 	while(i < Q->qtde){

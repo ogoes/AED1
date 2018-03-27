@@ -13,21 +13,21 @@ typedef struct no{
 typedef struct{
 	Node* sentinel;
 	int qtde;
-}Queue;
+}Stack;
 
-Queue* queue_cria(); // feita
-void queue_desaloca(Queue* Q); // feita
-void queue_insere(Queue* Q, Tipo elemento, int pos); // feita
-void queue_insere_fim(Queue* Q, Tipo elemento); // feita
-Tipo* queue_remove(Queue* Q, int pos); // feita
-int queue_remove2(Queue* Q, int pos, Tipo* ende); // feita
-int queue_remove_elemento(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)); // feita
-Tipo* queue_busca(Queue* Q, int pos); // feita
-int queue_busca2(Queue* Q, int pos, Tipo* ende); // feita
-int queue_contem(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)); // feita
-int queue_posicao(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)); // feita
-int queue_tamanho(Queue* Q); // feita
-void queue_imprime(Queue* Q, void (*imprimeElemento)(Tipo*)); // feita
+Stack* Stack_cria(); // feita
+void Stack_desaloca(Stack* Q); // feita
+void Stack_insere(Stack* Q, Tipo elemento, int pos); // feita
+void Stack_insere_fim(Stack* Q, Tipo elemento); // feita
+Tipo* Stack_remove(Stack* Q, int pos); // feita
+int Stack_remove2(Stack* Q, int pos, Tipo* ende); // feita
+int Stack_remove_elemento(Stack* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)); // feita
+Tipo* Stack_busca(Stack* Q, int pos); // feita
+int Stack_busca2(Stack* Q, int pos, Tipo* ende); // feita
+int Stack_contem(Stack* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)); // feita
+int Stack_posicao(Stack* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)); // feita
+int Stack_tamanho(Stack* Q); // feita
+void Stack_imprime(Stack* Q, void (*imprimeElemento)(Tipo*)); // feita
 
 
 Node* novono(Tipo valor, Node* next, Node* prev){
@@ -38,7 +38,7 @@ Node* novono(Tipo valor, Node* next, Node* prev){
 
 	return novo;
 }
-Node* auxpos(Queue* Q, int pos){
+Node* auxpos(Stack* Q, int pos){
 	if(pos < 0) pos = 0;
 	if(pos > Q->qtde) pos = Q->qtde;
 	Node* Aux = Q->sentinel;
@@ -63,8 +63,8 @@ void remove1(Node* A, Tipo* B){
 	*B = A->data;
 	free(A);
 }
-Queue* queue_cria(){
-	Queue* Q = (Queue* )calloc(1, sizeof(Queue));
+Stack* Stack_cria(){
+	Stack* Q = (Stack* )calloc(1, sizeof(Stack));
 	Q->qtde = 0;
 	Q->sentinel = (Node*)calloc(1, sizeof(Node));
 	Q->sentinel->next = Q->sentinel;
@@ -72,7 +72,7 @@ Queue* queue_cria(){
 
 	return Q;
 }
-void queue_desaloca(Queue* Q){
+void Stack_desaloca(Stack* Q){
 	Node* Aux = Q->sentinel->next;
 	Node* XXX;
 	while(Aux != Q->sentinel){
@@ -84,17 +84,17 @@ void queue_desaloca(Queue* Q){
 	free(Q->sentinel); Q->sentinel = NULL;
 	free(Q); Q = NULL;
 }
-void queue_insere(Queue* Q, Tipo elemento, int pos){
+void Stack_insere(Stack* Q, Tipo elemento, int pos){
 	Node* novo = novono(elemento, NULL, NULL);
 	Node* AUX = auxpos(Q, pos);
 	addfrente(AUX, novo);
 	++Q->qtde;
 }
-void queue_insere_fim(Queue* Q, Tipo elemento){
+void Stack_insere_fim(Stack* Q, Tipo elemento){
 	if(Q)	
-		queue_insere(Q, elemento, Q->qtde);
+		Stack_insere(Q, elemento, Q->qtde);
 }
-Tipo* queue_remove(Queue* Q, int pos){
+Tipo* Stack_remove(Stack* Q, int pos){
 	if(!Q) return NULL;
 	if(pos < 0 || pos >= Q->qtde) return NULL;
 	if(Q->sentinel->next == Q->sentinel) return NULL;
@@ -105,7 +105,7 @@ Tipo* queue_remove(Queue* Q, int pos){
 	
 	return T;
 }
-int queue_remove2(Queue* Q, int pos, Tipo* ende){
+int Stack_remove2(Stack* Q, int pos, Tipo* ende){
 	if(!Q) return 0;
 	if(pos < 0 || pos >= Q->qtde) return 0;
 	if(Q->sentinel->next == Q->sentinel) return 0;
@@ -115,7 +115,7 @@ int queue_remove2(Queue* Q, int pos, Tipo* ende){
 	
 	return 1;
 }
-int queue_remove_elemento(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)){
+int Stack_remove_elemento(Stack* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)){
 	if(!Q) return 0;
 	if(Q->sentinel->next == Q->sentinel) return 0;
 	Node* Aux = Q->sentinel->next;
@@ -123,7 +123,7 @@ int queue_remove_elemento(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*))
 	int a = 0;
 	while(Aux != Q->sentinel){
 		if((*compara)(&elemento, &Aux->data)){
-			T = queue_remove(Q, a);
+			T = Stack_remove(Q, a);
 			return 1;
 		}
 		Aux = Aux->next;
@@ -132,7 +132,7 @@ int queue_remove_elemento(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*))
 	free(T);
 	return 0;
 }
-Tipo* queue_busca(Queue* Q, int pos){
+Tipo* Stack_busca(Stack* Q, int pos){
 	if(!Q) return NULL;
 	if(pos < 0 && pos >= Q->qtde) return NULL;
 	if(Q->sentinel->next == Q->sentinel) return NULL;
@@ -148,7 +148,7 @@ Tipo* queue_busca(Queue* Q, int pos){
 	*T = Aux->data;
 	return T;
 }
-int queue_busca2(Queue* Q, int pos, Tipo* ende){
+int Stack_busca2(Stack* Q, int pos, Tipo* ende){
 	if(!Q) return 0;
 	if(pos < 0 && pos >= Q->qtde) return 0;
 	if(Q->sentinel->next == Q->sentinel) return 0;
@@ -163,7 +163,7 @@ int queue_busca2(Queue* Q, int pos, Tipo* ende){
 	*ende = Aux->data;
 	return 1;
 }
-int queue_contem(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)){
+int Stack_contem(Stack* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)){
 	if(!Q) return 0;
 	if(Q->sentinel->next == Q->sentinel) return 0;
 	Node* Aux = Q->sentinel->next;
@@ -178,7 +178,7 @@ int queue_contem(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)){
 
 	return 0;
 }
-int queue_posicao(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)){
+int Stack_posicao(Stack* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)){
 	if(!Q) return -1;
 	if(Q->sentinel->next == Q->sentinel) return -1;
 	Node* Aux = Q->sentinel->next;
@@ -194,7 +194,7 @@ int queue_posicao(Queue* Q, Tipo elemento, int (*compara)(Tipo*, Tipo*)){
 
 	return -1;
 }
-int queue_tamanho(Queue* Q){
+int Stack_tamanho(Stack* Q){
 	if(!Q) return -1;
 	if(Q->sentinel->next == Q->sentinel) return -1;
 	Node* Aux = Q->sentinel->next;
@@ -206,7 +206,7 @@ int queue_tamanho(Queue* Q){
 
 	return a;
 }
-void queue_imprime(Queue* Q, void (*imprimeElemento)(Tipo*)){
+void Stack_imprime(Stack* Q, void (*imprimeElemento)(Tipo*)){
 	if(Q != NULL){
 		Node* Aux = Q->sentinel->next;
 		Tipo AA;

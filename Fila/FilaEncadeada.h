@@ -12,23 +12,23 @@ typedef struct no{
 typedef struct{
 	Node* begin;
 	Node* end;
-}Fila;
+}Queue;
 
-Fila* fila_criar(); // feita
-int fila_inserir(Fila* F, Tipo item); // feita
-Tipo* fila_remover1(Fila* F); // feita
-int fila_remover2(Fila* F, Tipo* end); // feita
-void fila_imprimir(Fila* F,  void (*printElemento)(Fila*)); // feita
-int fila_tamanho(Fila* F); // feita
-void fila_desalocar(Fila* F); // feita
-Tipo* fila_primeiro(Fila* F); // feita
-int fila_contem(Fila* F, Tipo elemento); // feita
-
-
+Queue* Queue_criar(); // feita
+int Queue_inserir(Queue* F, Tipo item); // feita
+Tipo* Queue_remover1(Queue* F); // feita
+int Queue_remover2(Queue* F, Tipo* end); // feita
+void Queue_imprimir(Queue* F,  void (*printElemento)(Queue*)); // feita
+int Queue_tamanho(Queue* F); // feita
+void Queue_desalocar(Queue* F); // feita
+Tipo* Queue_primeiro(Queue* F); // feita
+int Queue_contem(Queue* F, Tipo elemento); // feita
 
 
 
-int fila_contem(Fila* F, Tipo elemento){
+
+
+int Queue_contem(Queue* F, Tipo elemento){
 	Node* Aux =F->begin;
 	while(Aux){
 		if(elemento == Aux->data)
@@ -38,7 +38,7 @@ int fila_contem(Fila* F, Tipo elemento){
 
 	return 0;
 }
-void fila_desalocar(Fila* F){
+void Queue_desalocar(Queue* F){
 	Node* Aux = F->begin;
 	Node* XXX;
 	while(Aux){
@@ -50,14 +50,14 @@ void fila_desalocar(Fila* F){
 	if(!F)
 		printf("Desalocado com sucesso\n");
 }
-Fila* fila_criar(){
-	Fila* F = (Fila* )malloc(sizeof(Fila));
+Queue* Queue_criar(){
+	Queue* F = (Queue* )malloc(sizeof(Queue));
 	F->begin = NULL;
 	F->end = NULL;
 
 	return F;
 }
-int fila_inserir(Fila* F, Tipo item){
+int Queue_inserir(Queue* F, Tipo item){
 	if(!F) return 0;
 	Node* Novo = (Node* )malloc(sizeof(Node));
 	Novo->data = item;
@@ -74,7 +74,7 @@ int fila_inserir(Fila* F, Tipo item){
 
 	return 1;
 }
-Tipo*fila_remover1(Fila* F){
+Tipo*Queue_remover1(Queue* F){
 	if(!F || !F->begin) return NULL;
 	Tipo* data = (Tipo* )malloc(sizeof(Tipo));
 	*data = F->begin->data;
@@ -84,7 +84,7 @@ Tipo*fila_remover1(Fila* F){
 
 	return data;
 }
-int fila_remover2(Fila* F, Tipo* end){
+int Queue_remover2(Queue* F, Tipo* end){
 	if(!F || !F->begin) return 0;
 	*end = F->begin->data;
 	Node* aux = F->begin;
@@ -93,18 +93,18 @@ int fila_remover2(Fila* F, Tipo* end){
 
 	return 1;
 }
-Tipo* fila_primeiro(Fila* F){
+Tipo* Queue_primeiro(Queue* F){
 	if(!F || !F->begin) return NULL;
 	Tipo* end = (Tipo* )calloc(1, sizeof(Tipo));
 	*end = F->begin->data;
 	
 	return end;
 }
-void fila_imprimir(Fila* F,  void (*printElemento)(Fila*)){
+void Queue_imprimir(Queue* F,  void (*printElemento)(Queue*)){
 
 	(*printElemento)(F);
 }
-int fila_tamanho(Fila* F){
+int Queue_tamanho(Queue* F){
 	if(!F) return -1;
 	Node* aux = F->begin;
 	int a = 0;
